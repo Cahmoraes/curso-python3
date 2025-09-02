@@ -1,6 +1,7 @@
 # Consultando funcionalidades do módulo OS
 import os
-import sys, platform
+import platform
+import sys
 
 # 1 - Retornar a pasta atual
 print(os.getcwd())
