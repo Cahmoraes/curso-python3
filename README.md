@@ -39,3 +39,11 @@ Após isso é necessário ativar o diretório virtual e para isso, no WSL basta 
 ```sh
   source ./.venv/bin/activate
 ```
+
+## Consultando todos os módulos nativos do Python
+```sh
+  # acesse o interpretador do Python no terminal:
+  python3
+  # após isso execute a função help:
+  help("modules")
+```
