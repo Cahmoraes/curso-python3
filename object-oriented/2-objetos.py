@@ -1,7 +1,23 @@
+from typing import TypedDict
+
+
+class GameConstructor(TypedDict):
+    name: str
+    age: int
+    log: bool
+
+
 class Game:
     total_games = 0  # Contar número total de jogos
 
-    def __init__(self, name="", year_launch=0, multiplayer=False, note=0):
+    def __init__(
+        self,
+        name: str = "",
+        year_launch: int = 0,
+        multiplayer=False,
+        note: float = 0,
+        game=GameConstructor,
+    ):
         self.name = name
         self.year_launch = year_launch
         self.multiplayer = multiplayer
@@ -9,11 +25,12 @@ class Game:
         self.__total_evaluation = 0
         self.__evaluators = 0
         Game.total_games += 1
+        self.game_constructor = game
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"Game: {self.name}"
 
-    def technical_sheet(self):
+    def technical_sheet(self) -> None:
         """
         verifica ficha técnica
         """
@@ -23,11 +40,11 @@ class Game:
             f"Multiplayer:{self.multiplayer}.\nNota: {self.note}"
         )
 
-    def evaluate(self, note):
+    def evaluate(self, note: float) -> None:
         self.__total_evaluation += note
         self.__evaluators += 1
 
-    def average(self):
+    def average(self) -> None:
         print(
             f"Média do filme: {self.name}: {self.__total_evaluation / self.__evaluators}"
         )
@@ -35,7 +52,13 @@ class Game:
 
 # Primeiro Jogo
 
-game1 = Game(name="Brigandine", multiplayer=False, year_launch=1998, note=10)
+game1 = Game(
+    name="Brigandine",
+    multiplayer=False,
+    year_launch=1998,
+    note=10,
+    game={"name": "caique"},
+)
 # game1.name = "Brigandine"
 # game1.multiplayer = False
 # game1.yearLaunch = 1998
@@ -47,3 +70,4 @@ game1.evaluate(7.5)
 game1.average()
 
 print(f"Total de jogos: {Game.total_games}")
+print(game1.game_constructor.get("name"))
