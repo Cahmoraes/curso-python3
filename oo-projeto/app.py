@@ -7,8 +7,10 @@ biblioteca_shopping = Biblioteca(nome="Biblioteca do Shopping")
 
 livro1 = Livro("1984", "George Orwell", 30.0, "084-3245")
 livro2 = Livro("Brave New World", "Aldous Huxley", 25.0, "084-3188")
-
 revista1 = Revista("National Geographic", "John Doe", 15.0, "Quinta")
+
+livro1.aplicar_desconto()
+revista1.aplicar_desconto()
 
 # biblioteca_cidade.alterna_estado()
 # biblioteca_cidade.receber_avaliacao("Caique", 10)
