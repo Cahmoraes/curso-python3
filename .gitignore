@@ -2,3 +2,5 @@
 .ipynb_checkpoints
 .vscode
 ex-js
+__pycache__
+arquivos/dados
