@@ -1,0 +1,65 @@
+# services:
+#   db:
+#     image: postgres:15.3-alpine
+#     container_name: postgres_db
+#     restart: always
+#     environment:
+#       POSTGRES_USER: postgres
+#       POSTGRES_PASSWORD: postgres
+#       POSTGRES_DB: db_games
+#     ports:
+#       - "5432:5432"
+#     volumes:
+#       - postgres_data:/var/lib/data
+#       - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+
+# volumes:
+#   postgres_data:
+
+# docker-compose.yml
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: mongo_official_lab
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpass
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  mongo-express:
+    image: mongo-express:1.0.2-20
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    ports:
+      - "8081:8081"
+    environment:
+      # Opção 1: usar URL completa (recomendada)
+      ME_CONFIG_MONGODB_URL: "mongodb://root:rootpass@mongodb:27017/?authSource=admin"
+      # (opcional) proteger o painel com basic auth
+      ME_CONFIG_BASICAUTH_USERNAME: admin
+      ME_CONFIG_BASICAUTH_PASSWORD: admin
+
+# cliente mongosh leve em Alpine (útil para “entrar no banco”)
+  mongosh:
+    image: alpine/mongosh:latest
+    depends_on:
+      - mongodb
+    entrypoint: [ "sleep", "infinity" ] # attach quando quiser com docker exec
+    # para já conectar, poderia ser:
+    # entrypoint: [ "mongosh", "mongodb://root:rootpass@mongodb:27017" ]
+
+
+volumes:
+  mongo_data:
+
+# Comando para executar o mongosh:
+# docker compose exec mongodb mongosh -u root -p rootpass --authenticationDatabase admin
